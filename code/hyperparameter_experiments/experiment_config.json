@@ -1,0 +1,50 @@
+{
+  "experiment_name": "CHAOS_Hyperparameter_Search",
+  "dataset": "CHAOS",
+  "base_config": {
+    "root_path": "../data/CHAOS",
+    "exp": "CHAOS/VIM_20_labeled",
+    "model": "mambaunet",
+    "num_classes": 5,
+    "max_iterations": 10000,
+    "labeled_num": 20,
+    "seed": 1337,
+    "deterministic": 1
+  },
+  "hyperparameters": {
+    "batch_size": {
+      "type": "grid",
+      "values": [4, 6, 8],
+      "description": "批次大小，影响训练速度和显存占用"
+    },
+    "base_lr": {
+      "type": "grid",
+      "values": [0.005, 0.01, 0.02],
+      "description": "基础学习率"
+    },
+    "patch_size": {
+      "type": "grid",
+      "values": [[192, 192], [224, 224], [256, 256]],
+      "description": "输入图像patch大小"
+    },
+    "num_cls_tokens": {
+      "type": "grid",
+      "values": [4, 6, 8, 12],
+      "description": "Register token数量"
+    },
+    "drop_path_rate": {
+      "type": "grid",
+      "values": [0.1, 0.2, 0.3],
+      "description": "Drop path rate for regularization"
+    }
+  },
+  "experiment_strategy": {
+    "method": "grid_search",
+    "description": "网格搜索所有超参数组合",
+    "max_parallel": 1,
+    "gpu_id": 0
+  },
+  "output_dir": "../experiments/hyperparameter_search",
+  "metrics": ["dice", "hd95", "training_time", "gpu_memory"]
+}
+
