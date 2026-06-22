@@ -1,0 +1,50 @@
+{
+  "experiment_name": "Synapse_3Configs_Test",
+  "dataset": "Synapse",
+  "base_config": {
+    "root_path": "../data/Synapse",
+    "exp": "Synapse/VIM_18_labeled",
+    "model": "mambaunet",
+    "num_classes": 9,
+    "max_iterations": 10000,
+    "labeled_num": 18,
+    "seed": 1337,
+    "deterministic": 1
+  },
+  "hyperparameters": {
+    "config_name": {
+      "type": "grid",
+      "values": ["config1", "config2", "config3"],
+      "description": "预定义的3个新超参数配置"
+    }
+  },
+  "custom_configs": {
+    "config1": {
+      "batch_size": 4,
+      "base_lr": 0.01,
+      "num_cls_tokens": 4,
+      "description": "保守配置：小batch，标准学习率，少tokens（显存友好，稳定）"
+    },
+    "config2": {
+      "batch_size": 8,
+      "base_lr": 0.01,
+      "num_cls_tokens": 6,
+      "description": "大batch配置：大batch，标准学习率，中等tokens（训练更快，可能性能更好）"
+    },
+    "config3": {
+      "batch_size": 4,
+      "base_lr": 0.02,
+      "num_cls_tokens": 8,
+      "description": "高学习率配置：小batch，高学习率，多tokens（可能收敛更快，性能更好）"
+    }
+  },
+  "experiment_strategy": {
+    "method": "grid_search",
+    "description": "测试3个预定义超参数配置",
+    "max_parallel": 1,
+    "gpu_id": 0
+  },
+  "output_dir": "../experiments/Synapse_3configs",
+  "metrics": ["dice", "hd95", "training_time", "gpu_memory"]
+}
+

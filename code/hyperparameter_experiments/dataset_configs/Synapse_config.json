@@ -1,0 +1,45 @@
+{
+  "experiment_name": "Synapse_Hyperparameter_Search",
+  "dataset": "Synapse",
+  "base_config": {
+    "root_path": "../data/Synapse",
+    "exp": "Synapse/VIM_18_labeled",
+    "model": "mambaunet",
+    "num_classes": 9,
+    "max_iterations": 10000,
+    "labeled_num": 18,
+    "seed": 1337,
+    "deterministic": 1
+  },
+  "hyperparameters": {
+    "batch_size": {
+      "type": "grid",
+      "values": [4, 6, 8],
+      "description": "批次大小"
+    },
+    "base_lr": {
+      "type": "grid",
+      "values": [0.005, 0.01, 0.02],
+      "description": "基础学习率"
+    },
+    "patch_size": {
+      "type": "grid",
+      "values": [[192, 192], [224, 224], [256, 256]],
+      "description": "输入图像patch大小"
+    },
+    "num_cls_tokens": {
+      "type": "grid",
+      "values": [4, 6, 8, 12],
+      "description": "Register token数量"
+    }
+  },
+  "experiment_strategy": {
+    "method": "grid_search",
+    "description": "网格搜索所有超参数组合",
+    "max_parallel": 1,
+    "gpu_id": 0
+  },
+  "output_dir": "../experiments/Synapse_hyperparameter_search",
+  "metrics": ["dice", "hd95", "training_time", "gpu_memory"]
+}
+
